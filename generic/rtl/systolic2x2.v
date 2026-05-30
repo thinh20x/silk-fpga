@@ -11,7 +11,7 @@ module systolic2x2(
     input  [3:0] b11,
     output [8:0] c00,
     output [8:0] c01,
-    output [8:0] c10,
+    output [8:0] c10
     output [8:0] c11
   );
 
