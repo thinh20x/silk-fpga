@@ -5,7 +5,7 @@ on:
     paths:
       - 'generic/rtl/**'
       - 'generic/tb/**'
-      - 'generic/config.txt'
+      - 'generic/config.txt' # Đã bổ sung trigger chuẩn xác
   pull_request:
     paths:
       - 'generic/rtl/**'
@@ -45,12 +45,12 @@ jobs:
           mkdir -p .results
           mv *.svg *.md sim/*.vcd eda_log.txt resource_stat.txt .results/ 2>/dev/null || true
           
-          # 5. Ép GitHub báo Xanh (Pass) hay Đỏ (Fail) dựa vào đúng mã lỗi ở bước 3
+          # 5. Ép GitHub báo Xanh (Pass) hay Đỏ (Fail) dựa vào đúng mã lỗi
           exit $EXIT_CODE
 
       - name: Tự động lưu kết quả
         uses: stefanzweifel/git-auto-commit-action@v5
-        # Lệnh if: always() đảm bảo vẫn push kết quả lên kể cả khi Verilator báo lỗi
+        # Luôn commit kết quả lên kể cả khi Verilator báo lỗi
         if: always()
         with:
           commit_message: "Tự động tạo báo cáo EDA, sơ đồ và Log (thư mục generic)"
@@ -62,10 +62,10 @@ jobs:
           REPO_URL="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}"
           cd generic
           
-          echo "# Báo Cáo Phân Tích " >> $GITHUB_STEP_SUMMARY
+          echo "# 📊 Báo Cáo Phân Tích SILK EDA" >> $GITHUB_STEP_SUMMARY
           
           # --- HIỂN THỊ TRỰC TIẾP LOG RA SUMMARY ---
-          echo "## Nhật ký thực thi (Logs) " >> $GITHUB_STEP_SUMMARY
+          echo "## 💻 Nhật ký thực thi (Logs)" >> $GITHUB_STEP_SUMMARY
           echo '```text' >> $GITHUB_STEP_SUMMARY
           if [ -f ".results/eda_log.txt" ]; then
             cat .results/eda_log.txt >> $GITHUB_STEP_SUMMARY
@@ -73,8 +73,9 @@ jobs:
             echo "Không thể tạo file log hoặc tiến trình bị ngắt đột ngột." >> $GITHUB_STEP_SUMMARY
           fi
           echo '```' >> $GITHUB_STEP_SUMMARY
-          # -----------------------------------------
           
+          # --- ĐỌC CONFIG ĐỂ RENDER ẢNH ---
+          # Đảm bảo Markdown nhúng đúng đường link ảnh của Top Module
           if [ -f "config.txt" ]; then
             TOP_MODULE=$(grep "^TOP_MODULE" config.txt | awk -F'=' '{print $2}' | tr -d ' ' | tr -d '\r')
           else
@@ -85,15 +86,21 @@ jobs:
           if [ -f ".results/module_${TOP_MODULE}.svg" ]; then
              echo "![Sơ Đồ Module](${REPO_URL}/generic/.results/module_${TOP_MODULE}.svg)" >> $GITHUB_STEP_SUMMARY
           fi
-          
 
           echo "## 2. RTL Schematic" >> $GITHUB_STEP_SUMMARY
           if [ -f ".results/schematic_${TOP_MODULE}.svg" ]; then
              echo "![Sơ Đồ Nguyên Lý RTL](${REPO_URL}/generic/.results/schematic_${TOP_MODULE}.svg)" >> $GITHUB_STEP_SUMMARY
           fi
 
-          # --- THỐNG KÊ TÀI NGUYÊN (Generic Cells) ---
-          echo "## 3. Tài Nguyên Thiết Kế (Generic Cells)" >> $GITHUB_STEP_SUMMARY
+          echo "## 3. Sơ Đồ Trạng Thái (FSM)" >> $GITHUB_STEP_SUMMARY
+          if [ -f ".results/fsm_${TOP_MODULE}.svg" ]; then
+             echo "![Sơ Đồ FSM](${REPO_URL}/generic/.results/fsm_${TOP_MODULE}.svg)" >> $GITHUB_STEP_SUMMARY
+          else
+             echo "*(Không phát hiện máy trạng thái - State Machine trong thiết kế này)*" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # --- HIỂN THỊ THỐNG KÊ TÀI NGUYÊN (Generic Cells) ---
+          echo "## 4. Tài Nguyên Thiết Kế (Generic Cells)" >> $GITHUB_STEP_SUMMARY
           echo '```text' >> $GITHUB_STEP_SUMMARY
           if [ -f ".results/resource_stat.txt" ]; then
              cat .results/resource_stat.txt >> $GITHUB_STEP_SUMMARY
@@ -101,15 +108,5 @@ jobs:
              echo "Không tìm thấy dữ liệu thống kê tài nguyên." >> $GITHUB_STEP_SUMMARY
           fi
           echo '```' >> $GITHUB_STEP_SUMMARY
-          # -----------------------------------------
-          
-          echo "## 4. Sơ Đồ Trạng Thái (FSM)" >> $GITHUB_STEP_SUMMARY
-          if [ -f ".results/fsm_${TOP_MODULE}.svg" ]; then
-             echo "![Sơ Đồ FSM](${REPO_URL}/generic/.results/fsm_${TOP_MODULE}.svg)" >> $GITHUB_STEP_SUMMARY
-          else
-             echo "*(Không phát hiện máy trạng thái - State Machine trong thiết kế này)*" >> $GITHUB_STEP_SUMMARY
-          fi
-          
-          
           
           echo "> 💡 **Mẹo:** Tải file \`.vcd\` trong thư mục \`generic/.results\` để xem sóng mô phỏng." >> $GITHUB_STEP_SUMMARY
