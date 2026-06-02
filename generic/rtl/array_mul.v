@@ -1,6 +1,4 @@
-module array_mul_top #(
-    parameter size = 4
-)(
+module array_mul_top (
     input  wire                 clk,     // Clock hệ thống
     input  wire                 rst_n,   // Reset tích cực mức thấp
     input  wire [size-1:0]      a_in,    // Dữ liệu thô từ Pad
@@ -22,16 +20,16 @@ module array_mul_top #(
         end
     end
 
-    // 2. Combinational Core: Lõi Braun tổ hợp
+    
     wire [2*size-1:0] p_wire;
 
-    array_mul #(size) core_inst (
+    array_mul core_inst (
         .a_in(a_reg),
         .b_in(b_reg),
         .p(p_wire)
     );
 
-    // 3. Output Registers: Chốt dữ liệu đầu ra
+
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             p_out <= 0;
