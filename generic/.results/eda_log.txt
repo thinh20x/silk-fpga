@@ -1,6 +1,6 @@
 === BẮT ĐẦU SILK-EDA ===
 ✅ Top Module: array_mul_top
-✅ Testbench: tb_systolic2x2
+✅ Testbench: 
 === 1/4: Đang kiểm tra lỗi cú pháp và logic (Linting) ===
 /usr/local/bin/entrypoint.sh: line 23: 1: command not found
 %Warning-MULTITOP: rtl/array_mul.v:1:8: Multiple top level modules
