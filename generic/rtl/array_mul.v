@@ -1,4 +1,5 @@
-module array_mul_top (
+module array_mul_top 
+    (
     input  wire                 clk,     
     input  wire                 rst_n, 
     input  wire [3:0]      a_in,   
@@ -6,7 +7,7 @@ module array_mul_top (
     output reg  [7:0]    p_out    
 );
 
-    // 1. Input Registers: Chốt dữ liệu đầu vào
+
     reg [3:0] a_reg;
     reg [3:0] b_reg;
 
