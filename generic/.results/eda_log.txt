@@ -3,21 +3,26 @@
 ✅ Testbench: tb_systolic2x2
 === 1/4: Đang kiểm tra lỗi cú pháp và logic (Linting) ===
 /usr/local/bin/entrypoint.sh: line 23: 1: command not found
-✅ Code RTL vượt qua Verilator Linting.
-=== 1/4: Đang tạo Module Documentation ===
-=== 2/4: Đang tổng hợp Netlist và FSM bằng Yosys ===
-=== 3/4: Đang vẽ Schematic và FSM ===
-=== 4/4: Đang mô phỏng ===
-VCD info: dumpfile sim/waveform.vcd opened for output.
-----------------------------------------
-Time: 80000 | Negedge Data Push Test Results:
-Matrix C = A * B
-Calculated C = [  3    7]
-               [  5   12]
-Expected   C = [3   7]
-               [5  12]
-Status: PASSED
-----------------------------------------
-tb/tb_systolic2x2.v:88: $finish called at 100000 (1ps)
-✅ Đã tạo Waveform trong thư mục sim/
-🎉 HOÀN TẤT !
+%Warning-MULTITOP: rtl/array_mul.v:1:8: Multiple top level modules
+                                      : ... Suggest see manual; fix the duplicates, or use --top-module to select top.
+                   ... For warning description see https://verilator.org/warn/MULTITOP?v=5.020
+                   ... Use "/* verilator lint_off MULTITOP */" and lint_on around source to disable this message.
+                                      : ... Top module 'systolic2x2'
+    1 | module systolic2x2(
+      |        ^~~~~~~~~~~
+                                      : ... Top module 'array_mul_top'
+    1 | module array_mul_top #(
+      |        ^~~~~~~~~~~~~
+                                      : ... Top module 'spm'
+    1 | module spm(clk, rst, x, y, p);
+      |        ^~~
+%Warning-GENUNNAMED: rtl/array_mul.v:94:26: Unnamed generate block 'genblk1' (IEEE 1800-2017 27.6)
+                                          : ... Suggest assign a label with 'begin : gen_<label_name>'
+   94 |         assign c4in[l+1] = c4out[l];
+      |                          ^
+%Error-PINNOTFOUND: rtl/array_mul.v:28:17: Parameter not found: '__paramNumber1'
+   28 |     array_mul #(size) core_inst (
+      |                 ^~~~
+%Error: Exiting due to 1 error(s), 2 warning(s)
+❌ LỖI: Có lỗi rồi!
+Hãy đọc kỹ log cảnh báo (Error/Warning) ở trên, sửa lỗi và push lại.
