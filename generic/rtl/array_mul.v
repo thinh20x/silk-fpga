@@ -3,7 +3,7 @@ module array_mul_top (
     input  wire                 rst_n, 
     input  wire [3:0]      a_in,   
     input  wire [3:0]      b_in,
-    output reg  [3:0]    p_out    
+    output reg  [7:0]    p_out    
 );
 
     // 1. Input Registers: Chốt dữ liệu đầu vào
