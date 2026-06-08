@@ -1,0 +1,30 @@
+
+7. Printing statistics.
+
+=== uart_rx ===
+
+   Number of wires:                 34
+   Number of wire bits:            267
+   Number of public wires:          14
+   Number of public wire bits:      45
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 29
+     $add                            2
+     $dffe                           1
+     $eq                             4
+     $ge                             1
+     $gt                             1
+     $logic_and                      2
+     $logic_not                      1
+     $logic_or                       2
+     $lt                             1
+     $mux                            5
+     $not                            1
+     $pmux                           1
+     $reduce_bool                    1
+     $reduce_or                      1
+     $sdff                           3
+     $sdffe                          2
+

@@ -2,14 +2,11 @@
 ✅ Top Module: uart_rx
 ✅ Testbench: //cóthểđểtrống
 === 0/4: Đang kiểm tra lỗi cú pháp và logic (Linting) ===
-%Error: rtl/uart.v:259:35: Duplicate declaration of block: 'p_fsm_state'
-  259 |     always @(posedge clk) begin : p_fsm_state
-      |                                   ^~~~~~~~~~~
-        rtl/uart.v:222:35: ... Location of original declaration
-  222 |     always @(posedge clk) begin : p_fsm_state
-      |                                   ^~~~~~~~~~~
-%Error: rtl/uart.v:263:26: Can't find definition of task/function: 'next_fsm_state'
-  263 |             fsm_state <= next_fsm_state();
-      |                          ^~~~~~~~~~~~~~
-%Error: Exiting due to 2 error(s)
-🛑 Hãy đọc kỹ log cảnh báo (Error/Warning) ở trên, sửa lỗi và push lại.
+✅ Code RTL vượt qua Verilator linting.
+=== 1/4: Đang tạo Module Documentation ===
+=== 2/4: Đang tổng hợp Netlist và trích xuất FSM ===
+=== 3/4: Đang vẽ Schematic và FSM ===
+=== 4/4: Đang mô phỏng và tạo sóng ===
+⚠️ BỎ QUA MÔ PHỎNG: Không tìm thấy file testbench '//cóthểđểtrống' trong thư mục tb/.
+👉 Gợi ý: Hãy bổ sung testbench để hệ thống có thể chạy kiểm tra dạng sóng.
+🎉 HOÀN TẤT PIPELINE!
