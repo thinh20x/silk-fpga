@@ -35,6 +35,7 @@ module uart (
         .clk(clk),
         .resetn(rst_n),
         .uart_rxd(uart_rx_pin),
+        /* verilator lint_off PINMISSING */
         //.uart_rts(), // Không dùng 
         .uart_rx_read(rx_read_ack),
         .uart_rx_valid(rx_valid),
