@@ -219,14 +219,18 @@ module uart_rx #(parameter
     wire next_bit     = cycle_counter == CYCLES_PER_BIT[COUNT_REG_LEN-1:0];
     wire mid_bit      = cycle_counter == CYCLES_PER_BIT[COUNT_REG_LEN-1:0] / 2;
 
-    function [3:0] next_fsm_state();
-        case(fsm_state)
-            FSM_IDLE : next_fsm_state = rxd_reg[0]  ? FSM_IDLE  : FSM_START;
-            FSM_STOP : next_fsm_state = mid_bit     ? (rxd_reg[0] ? FSM_READY : FSM_IDLE) : FSM_STOP;
-            FSM_READY: next_fsm_state = uart_rx_read? FSM_IDLE  : FSM_READY;
-            default  : next_fsm_state = next_bit    ? fsm_state + 1 : fsm_state;
-        endcase
-    endfunction
+    always @(posedge clk) begin : p_fsm_state
+        if(!resetn) begin
+            fsm_state <= FSM_IDLE;
+        end else begin
+            case(fsm_state)
+                FSM_IDLE : fsm_state <= rxd_reg[0]  ? FSM_IDLE  : FSM_START;
+                FSM_STOP : fsm_state <= mid_bit     ? (rxd_reg[0] ? FSM_READY : FSM_IDLE) : FSM_STOP;
+                FSM_READY: fsm_state <= uart_rx_read? FSM_IDLE  : FSM_READY;
+                default  : fsm_state <= next_bit    ? fsm_state + 1 : fsm_state;
+            endcase
+        end
+    end
 
     always @(posedge clk) begin : p_recieved_data
         if(fsm_state >= FSM_RECV && fsm_state < FSM_STOP && next_bit ) begin
