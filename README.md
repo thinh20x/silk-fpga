@@ -10,7 +10,7 @@ Mình sẽ cập nhật liên tục các tool cho FPGA và ASIC trên repo này,
 
 Kho lưu trữ này hiện tại cung cấp hai môi trường làm việc độc lập được cấu hình tự động hoàn toàn bằng GitHub Actions:
 1. **`remote_lab/`**: Biên dịch mã nguồn RTL thành file trung gian để nạp lên Board ảo trên web remote lab.
-2. **`generic/`**: Chạy luồng công cụ EDA mã nguồn mở để phân tích lỗi, vẽ sơ đồ nguyên lý, máy trạng thái, thống kê tài nguyên phần cứng, và chạy testbench.
+2. **`projects/`**: Chạy luồng công cụ EDA mã nguồn mở để phân tích lỗi, vẽ sơ đồ nguyên lý, máy trạng thái, thống kê tài nguyên phần cứng, và chạy testbench cho các file dự án.
 
 ---
 
@@ -43,18 +43,21 @@ Hệ thống nhận diện chế độ làm việc của bạn thông qua một 
 7. Workflow chỉ chạy khi phát hiện có sự thay đổi trong thư mục 'your_moudule'.
 ---
 
-## 2. Thư mục `generic` (Báo cáo RTL)
+## 2. Thư mục `projects` (Báo cáo RTL)
 
 Thư mục này hoạt động như một máy trạm EDA thu nhỏ chạy trên Cloud, tích hợp các bộ công cụ mã nguồn mở. Nhiệm vụ chính là phân tích, kiểm thử và trực quan hóa thiết kế phần cứng của bạn ngay khi push code mà không cần cài đặt rườm rà.
 
 ### 📁 Cấu trúc thư mục bắt buộc
-Để pipeline không bị lỗi, cấu trúc thư mục của bạn bên trong `generic/` phải chuẩn chỉ như sau:
+Để pipeline không bị lỗi, cấu trúc thư mục của bạn bên trong `projects/` phải như sau:
 ```text
-generic/
-├── config.txt          # Khai báo tên Top Module và Testbench
-├── rtl/                # Nơi chứa toàn bộ file thiết kế (.v, .sv)
-├── tb/                 # Nơi chứa file Testbench (.v, .sv)
-└── sim/                # Thư mục trống để hệ thống xuất file sóng (.vcd)
+projects/    # Thư mục chung chứa toàn bộ dự án
+├── systolic           # Thư mục dự án 1
+ ├── config.txt          # Khai báo tên Top Module và Testbench
+ ├── rtl/                # Nơi chứa toàn bộ file thiết kế (.v, .sv)
+ ├── tb/                 # Nơi chứa file Testbench (.v, .sv)
+ └── sim/                # Thư mục trống để hệ thống xuất file sóng (.vcd)
+├── cla                # Thư mục dự án 2
+├── proj_n             # Thư mục dự án n
 ```
 Tệp config.txt bắt buộc phải khai báo chính xác theo định dạng sau:
 ``` text
@@ -65,10 +68,10 @@ TB_NAME = ten_file_testbench_cua_ban
 ### 🛠️ Cách sử dụng
 1. **Fork** repository này về tài khoản GitHub cá nhân của bạn (nếu đã làm rồi thì làm 1 lần thui nhe).
 2. Thêm các file thiết kế RTL '.v' và '.sv' vào thư mục rtl, file testbench vào thư mục tb ( phải có tiền tố 'tb_' ở trước thì mới là file tb hợp lệ, ví dụ: 'tb_mul.sv').
-3. Nếu muốn tạo ra file sóng để xem, bạn phải thêm vào bên trong file tb như sau:
+3. Nếu muốn tạo ra file sóng để xem, bạn phải thêm vào bên trong file tb như sau, bạn có thể xem sóng được tạo ra trong thư mục **sim** bằng gtkwave:
 ``` text
  initial begin
-        // file dạng sóng sẽ được tạo tự động trong thư mục **sim**.
+        // thêm vào để trình biên dịch tạo sóng
         $dumpfile("sim/waveform.vcd");
         $dumpvars(0, tb_mul);
  end
