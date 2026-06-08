@@ -35,7 +35,7 @@ module uart (
         .clk(clk),
         .resetn(rst_n),
         .uart_rxd(uart_rx_pin),
-        .uart_rts(), // Không dùng 
+        //.uart_rts(), // Không dùng 
         .uart_rx_read(rx_read_ack),
         .uart_rx_valid(rx_valid),
         .uart_rx_data(rx_data)
