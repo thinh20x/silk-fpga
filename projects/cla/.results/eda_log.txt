@@ -11,5 +11,5 @@
 VCD info: dumpfile cla_4b.vcd opened for output.
 >>> KET QUA: PASS! Tat ca cac truong hop deu dung.
 tb/tb_cla_4b.v:64: $finish called at 5120000 (1ps)
-✅ Đã tạo Waveform trong thư mục sim/
+✅ Đã tạo Waveform thành công.
 🎉 HOÀN TẤT PIPELINE!
