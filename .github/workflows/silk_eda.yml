@@ -62,7 +62,7 @@ jobs:
           mkdir -p .results
           rm -f .results/*.svg .results/*.md .results/*.txt .results/*.vcd 2>/dev/null || true
           
-          # BẢN VÁ 2: Quét mọi ngóc ngách để tìm file vcd
+          
           mv *.svg *.md *.vcd sim/*.vcd eda_log.txt resource_stat.txt .results/ 2>/dev/null || true
           
           exit $EXIT_CODE
@@ -72,7 +72,8 @@ jobs:
         if: always()
         with:
           commit_message: "Tự động tạo báo cáo EDA cho mục ${{ env.TARGET_PATH }}"
-          file_pattern: '${{ env.TARGET_PATH }}/.results/*'
+          # MỞ RỘNG VÙNG QUÉT: Cho phép Bot push cả thư mục .results VÀ file sim.out
+          file_pattern: '${{ env.TARGET_PATH }}/.results/* ${{ env.TARGET_PATH }}/sim/sim.out'
 
       - name: Tạo Báo cáo Trực quan
         if: always()
