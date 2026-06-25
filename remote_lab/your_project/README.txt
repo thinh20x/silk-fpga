@@ -5,3 +5,4 @@ Khi bạn up file mới và nhấn commit change, action của github sẽ tự 
 Nhớ sửa mode.txt để chọn chế độ mà bạn muốn: NONE, VGA, HEX, PS2
 
 
+
