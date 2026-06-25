@@ -4,3 +4,4 @@ File top của bạn có thể tên là gì cũng được, nhưng module bên t
 Ở chế độ này bạn dùng được toàn bộ ngoại vi cơ bản, thêm màn hình vga.
 Nhớ là có sửa thì sửa logic bên trong thôi nhé, còn các port như top module này thì giữ nguyên nha.
 
+
